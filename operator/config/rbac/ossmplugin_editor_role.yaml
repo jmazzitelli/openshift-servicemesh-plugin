@@ -1,0 +1,24 @@
+# permissions for end users to edit ossmplugins.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: ossmplugin-editor-role
+rules:
+- apiGroups:
+  - kiali.io
+  resources:
+  - ossmplugins
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - kiali.io
+  resources:
+  - ossmplugins/status
+  verbs:
+  - get

@@ -1,0 +1,20 @@
+# permissions for end users to view ossmplugins.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: ossmplugin-viewer-role
+rules:
+- apiGroups:
+  - kiali.io
+  resources:
+  - ossmplugins
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - kiali.io
+  resources:
+  - ossmplugins/status
+  verbs:
+  - get

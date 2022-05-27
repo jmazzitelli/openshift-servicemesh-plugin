@@ -37,4 +37,21 @@ rules:
       - patch
       - update
       - watch
+  ##
+  ## Rules for kiali.io/v1alpha1, Kind: OSSMPlugin
+  ##
+  - apiGroups:
+      - kiali.io
+    resources:
+      - ossmplugins
+      - ossmplugins/status
+      - ossmplugins/finalizers
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
 #+kubebuilder:scaffold:rules
