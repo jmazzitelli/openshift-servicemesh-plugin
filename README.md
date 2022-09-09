@@ -185,7 +185,7 @@ make -e CONTAINER_VERSION=v0.1.0 build-plugin-image push-plugin-image
 Or for a multi-arch container:
 
 ```sh
-make -e CONTAINER_VERSION=v0.1.0 build-plugin-image build-push-plugin-multi-arch
+make -e CONTAINER_VERSION=v0.1.0 build-push-plugin-multi-arch
 ```
 
 If you want to release a "latest" image, set `CONTAINER_VERSION` to "latest".
