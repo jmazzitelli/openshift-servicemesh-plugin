@@ -222,9 +222,9 @@ jobs:
       run: |
         docker login -u ${{ secrets.QUAY_USER }} -p ${{ secrets.QUAY_PASSWORD }} quay.io
 
-        make build-push-plugin-multi-arch
+        # MAZZ: SKIP FOR TESTING make build-push-plugin-multi-arch
 
-        make build-push-operator-multi-arch
+        # MAZZ: SKIP FOR TESTING make build-push-operator-multi-arch
 
     - name: Configure git
       run: |
