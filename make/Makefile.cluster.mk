@@ -48,8 +48,9 @@
 
 .prepare-plugin-pull-secret: .prepare-cluster
 	@# base64 encode a pull secret (using the logged in user token) that can be used to pull the plugin image from the internal image registry
-	@$(eval PLUGIN_IMAGE_PULL_SECRET_JSON = $(shell ${OC} registry login --registry="$(shell ${OC} registry info --internal)" --namespace=${ALL_IMAGES_NAMESPACE} --to=- | base64 -w0))
+	@$(eval PLUGIN_IMAGE_PULL_SECRET_JSON = $(shell ${OC} registry login --registry="$(shell ${OC} registry info --internal)" --namespace=${ALL_IMAGES_NAMESPACE} --to=/tmp/json &>/dev/null && cat /tmp/json | base64 -w0))
 	@$(eval PLUGIN_IMAGE_PULL_SECRET_NAME ?= ossmconsole-plugin-pull-secret)
+	@rm /tmp/json
 
 .create-plugin-pull-secret: .prepare-plugin-pull-secret
 	@if [ -n "${PLUGIN_IMAGE_PULL_SECRET_JSON}" ] && ! (${OC} get secret ${PLUGIN_IMAGE_PULL_SECRET_NAME} --namespace ${PLUGIN_NAMESPACE} &> /dev/null); then \
