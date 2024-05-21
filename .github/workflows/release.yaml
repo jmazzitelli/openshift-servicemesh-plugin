@@ -15,6 +15,13 @@ on:
         description: The version of the Kiali source code to build with OSSMC. This is either a branch or tag name. The default is the version of the OSSMC release being built. This means by default the versions of the Kiali source and OSSMC will be the same.
         type: string
         required: false
+      release_type:
+        description: Release type
+        required: true
+        type: choice
+        options:
+        - minor
+        - patch
 
 jobs:
   initialize:
@@ -74,18 +81,24 @@ jobs:
     - name: Determine release type
       id: release_type
       run: |
-        echo ${{ github.ref_name }}
-        if [[ "${{ github.ref_name }}" == "main" ]];
+        echo "github.ref_name=[${{ github.ref_name }}]"
+        echo "github.event.inputs.release_type=[${{ github.event.inputs.release_type }}]"
+        if [ -z ${{ github.event.inputs.release_type }} ];
         then
-          DO_RELEASE=$(python minor.py)
-          if [[ $DO_RELEASE == "1" ]]
+          if [[ "${{ github.ref_name }}" == "main" ]];
           then
-            echo "release_type=minor" >> $GITHUB_ENV
+            DO_RELEASE=$(python minor.py)
+            if [[ $DO_RELEASE == "1" ]]
+            then
+              echo "release_type=minor" >> $GITHUB_ENV
+            else
+              echo "release_type=skip" >> $GITHUB_ENV
+            fi
           else
-            echo "release_type=skip" >> $GITHUB_ENV
+            echo "release_type=patch" >> $GITHUB_ENV
           fi
         else
-          echo "release_type=patch" >> $GITHUB_ENV
+          echo "release_type=${{ github.event.inputs.release_type }}" >> $GITHUB_OUTPUT
         fi
 
     - name: Determine release version
